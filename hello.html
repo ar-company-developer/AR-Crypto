@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title id="page_title" data-i18n="about">AR Center</title>
+  <style>
+  .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 23vh;
+    overflow: hidden; 
+    background-color: white;
+  }
+  h3 {
+  margin: 0; /* Прибирає стандартне зміщення заголовка */
+  display: flex;
+  align-items: center; /* Додаткове вирівнювання всередині тексту */
+}
+  .slide-in-center {
+    width: 180px;
+    height: auto;
+    animation: slideLeftToCenter 1.2s ease-out 0.2s forwards;
+    opacity: 0;
+  }
+  @keyframes slideLeftToCenter {
+    0% {
+      opacity: 0;
+      transform: translateX(-100vw); */
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  .slide-in-right {
+    width: 180px;
+    height: 180px;
+    animation: slideRightToCenter 1.2s ease-out 0.3s forwards;
+    opacity: 0;
+  }
+  @keyframes slideRightToCenter {
+    0% {
+      opacity: 0;
+      transform: translateX(100vw);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+   .slide-in-button1 {
+    animation: slideTopToCenter 1.2s ease-out 0.2s forwards;
+    opacity: 0;
+  }
+  @keyframes slideTopToCenter {
+    0% {
+      opacity: 0;
+      transform: translateX(100vw);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+   .slide-in-button2 {
+    animation: slideTopToCenter 1.2s ease-out 0.4s forwards;
+    opacity: 0;
+  }
+  @keyframes slideTopToCenter {
+    0% {
+      opacity: 0;
+      transform: translateY(100vw);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  </style>
+</head>
+<body>
+  <h2 style="text-align:center; margin-top: 100px; font-family: Sans-Serif; font-size: 30px; color:black; margin-bottom: 50px;"><strong>Welcome to AR Center</strong></h2>
+  <div class="container">
+      <h3 class="slide-in-center">Розумне управління <br> фінансами в одному місці</h3>
+  <svg class="slide-in-center" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M2 8C2 5.79086 3.79086 4 6 4H18C20.2091 4 22 5.79086 22 8V9V15V16C22 18.2091 20.2091 20 18 20H6C3.79086 20 2 18.2091 2 16V8ZM18 6C19.1046 6 20 6.89543 20 8H18C15.7909 8 14 9.79086 14 12C14 14.2091 15.7909 16 18 16H20C20 17.1046 19.1046 18 18 18H6C4.89543 18 4 17.1046 4 16V8C4 6.89543 4.89543 6 6 6H18ZM18 10H20V14H18C16.8954 14 16 13.1046 16 12C16 10.8954 16.8954 10 18 10ZM18 13C18.5523 13 19 12.5523 19 12C19 11.4477 18.5523 11 18 11C17.4477 11 17 11.4477 17 12C17 12.5523 17.4477 13 18 13Z" fill="#005fc9"/>
+  </svg>
+</div>
+  <div class="container">
+<svg class="slide-in-right" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M16 9V6C16 4.34315 14.6569 3 13 3H11C9.34315 3 8 4.34315 8 6V9M16 9H8M16 9C17.6569 9 19 10.3431 19 12V18C19 19.6569 17.6569 21 16 21H8C6.34315 21 5 19.6569 5 18V12C5 10.3431 6.34315 9 8 9M12 14V17M13 14C13 14.5523 12.5523 15 12 15C11.4477 15 11 14.5523 11 14C11 13.4477 11.4477 13 12 13C12.5523 13 13 13.4477 13 14Z" stroke="#005fc9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+  <h3 class="slide-in-right">Безпечне сховище для всіх ваших активів</h3>
+</div>
+    <button class="slide-in-button1" style="background:white; border-color:black; height:53px; width:95%; margin-left:11px; border-radius: 20px; font-size: 16px; margin-top: 100px;"><strong>+ Створити</strong></button>
+  <button onclick="window.location.href='login.html'" class="slide-in-button2" style="background:#005fc9; border:none; height:53px; color: white; width:95%; margin-left:11px; border-radius: 20px; font-size: 16px; margin-top: 10px; font-family:Arial;"><strong>Вже є аккаунт</strong></button>
+</body>

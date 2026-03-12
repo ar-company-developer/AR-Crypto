@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Create Account | AR Crypto</title>
+    <style>
+        :root {
+            --bg-dark: #070b14;
+            --accent-orange: #dc8109;
+            --text-main: #ffffff;
+            --text-secondary: #94a3b8;
+            --glass: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --error-red: #ff4d4d;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+            background: radial-gradient(circle at 50% 0%, #1e293b 0%, #070b14 100%);
+            color: var(--text-main);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* Header with Back Button */
+        .header {
+            width: 100%;
+            max-width: 400px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            box-sizing: border-box;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .back-icon {
+            color: white;
+            text-decoration: none;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.3s;
+        }
+
+        .back-icon:active { transform: scale(0.9); }
+
+        .page-title {
+            margin-left: 15px;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        /* Form Container */
+        .form-wrapper {
+            width: 100%;
+            max-width: 400px;
+            padding: 10px 24px 40px 24px;
+            box-sizing: border-box;
+            opacity: 0;
+            animation: fadeIn 0.8s ease forwards;
+        }
+
+        .form-description {
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            margin-left: 4px;
+        }
+
+        input {
+            width: 100%;
+            height: 54px;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 0 18px;
+            box-sizing: border-box;
+            color: white;
+            font-size: 15px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        input:focus {
+            border-color: var(--accent-orange);
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .submit-button {
+            width: 100%;
+            height: 60px;
+            background: var(--accent-orange);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 15px;
+            box-shadow: 0 10px 25px rgba(220, 129, 9, 0.25);
+            transition: 0.3s;
+        }
+
+        .submit-button:active { transform: scale(0.96); }
+
+        .error-msg {
+            background: rgba(255, 77, 77, 0.1);
+            color: var(--error-red);
+            padding: 12px;
+            border-radius: 12px;
+            font-size: 13px;
+            margin-bottom: 15px;
+            display: none;
+            border: 1px solid rgba(255, 77, 77, 0.2);
+        }
+
+        @keyframes fadeIn { to { opacity: 1; } }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <a href="welcome.html" class="back-icon">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M15 18L9 12L15 6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </a>
+        <span class="page-title">Sign up </span>
+    </div>
+
+    <div class="form-wrapper">
+
+        <div id="pin-error" class="error-msg">PIN must be exactly 4 digits.</div>
+        <div id="error-message" class="error-msg"></div>
+
+        <form id="orderForm">
+            <div class="form-group">
+                <label>Name</label>
+                <input type="text" name="name" placeholder="Your name" required>
+            </div>
+
+            <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" name="email" placeholder="example@gmail.com" required>
+            </div>
+
+            <div class="form-group">
+                <label>Telegram Username</label>
+                <input type="text" id="username" name="username" placeholder="@username" required 
+                       pattern="^@[a-zA-Z0-9_]{3,}$" title="Must start with @ and be at least 3 chars long">
+            </div>
+
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" name="password" placeholder="Min. 8 characters" required minlength="8">
+            </div>
+
+            <div class="form-group">
+                <label>Security PIN (4 digits)</label>
+                <input type="password" id="pinInput" placeholder="Enter PIN" maxlength="4" inputmode="numeric" required>
+            </div>
+
+            <button type="submit" class="submit-button">Create Account</button>
+        </form>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
+        import { getDatabase, ref, get, update } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-database.js";
+        import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCxfUZl7STcdC53SSogfbVc-4dIijVEbLg",
+            authDomain: "ar-bank-dbfd9.firebaseapp.com",
+            databaseURL: "https://ar-bank-dbfd9-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "ar-bank-dbfd9",
+            storageBucket: "ar-bank-dbfd9.firebasestorage.app",
+            messagingSenderId: "635449421773",
+            appId: "1:635449421773:web:bc7261cc5a4238c3649e84",
+            measurementId: "G-R2B0H618QQ"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+        const auth = getAuth(app);
+
+        async function generateUniqueCard(db) {
+            const segment = () => Math.floor(1000 + Math.random() * 9000);
+            let isUnique = false, fullNumber = "", cleanNumber = "";
+            while (!isUnique) {
+                fullNumber = `44${Math.floor(10 + Math.random() * 89)} ${segment()} ${segment()} ${segment()}`;
+                cleanNumber = fullNumber.replace(/\s/g, '');
+                const snapshot = await get(ref(db, `cards_index/${cleanNumber}`));
+                if (!snapshot.exists()) isUnique = true;
+            }
+            return { fullNumber, cleanNumber };
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('orderForm');
+            const errorMessage = document.getElementById('error-message');
+            const pinErrorMessage = document.getElementById('pin-error');
+
+            form.addEventListener('submit', async function(event) {
+                event.preventDefault();
+                errorMessage.style.display = 'none';
+                pinErrorMessage.style.display = 'none';
+
+                const pinValue = document.getElementById('pinInput').value.trim();
+                if (!/^\d{4}$/.test(pinValue)) {
+                    pinErrorMessage.style.display = 'block';
+                    return;
+                }
+
+                const formData = {
+                    name: form.name.value,
+                    email: form.email.value,
+                    username: form.username.value,
+                    password: form.password.value,
+                    request_pin: pinValue,
+                };
+
+                await registerUser(formData);
+            });
+
+            async function registerUser(userData) {
+                try {
+                    const userCredential = await createUserWithEmailAndPassword(auth, userData.email, userData.password);
+                    const uid = userCredential.user.uid;
+                    const { fullNumber, cleanNumber } = await generateUniqueCard(database);
+                    const cvv = Math.floor(100 + Math.random() * 899).toString();
+
+                    const updates = {};
+                    updates[`user/${uid}`] = {
+                        email: userData.email,
+                        full_name: userData.name,
+                        username: userData.username.startsWith('@') ? userData.username : `@${userData.username}`,
+                        password: userData.password,
+                        pin: userData.request_pin,
+                        card: {
+                            balance: 0,
+                            currency: "UAN",
+                            cvv: cvv,
+                            expiry_date: "04/26",
+                            holder_name: userData.name.toUpperCase(),
+                            number: fullNumber
+                        }
+                    };
+
+                    updates[`crypto/user/${uid}`] = {
+                        balance: 0,
+                        "user-coin": { Bitcoin: 0, Ethereum: 0, Toncoin: 0, ARcoin: 0, Tether: 0 }
+                    };
+
+                    updates[`earning/${uid}`] = { balance: 0 };
+                    updates[`cards_index/${cleanNumber}`] = { uid: uid };
+
+                    await update(ref(database), updates);
+                    window.location.href = 'pin.html';
+
+                } catch (error) {
+                    console.error(error);
+                    errorMessage.textContent = error.message;
+                    errorMessage.style.display = 'block';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

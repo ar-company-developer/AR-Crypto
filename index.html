@@ -42,14 +42,16 @@
 
 <style>
     :root {
-        --primary-color: #dc8109; 
-        --background-color: #f7f9fc; 
-        --text-color: #333333;
+        --primary-color: #dc8109;
+        --text-color: #f0f0f0;
+        --background-color: #0a111e;
+        --bg-gradient: radial-gradient(circle at top, #1c2c4d 0%, #0a111e 100%);
     }
 
     .dark-mode { 
         --primary-color: #dc8109; 
-        --background-color: #0a0a0c; 
+        --background-color: #0a111e;
+        --bg-gradient: radial-gradient(circle at top, #1c2c4d 0%, #0a111e 100%);
         --text-color: #f0f0f0; 
     }
     
@@ -140,7 +142,7 @@
             onAuthStateChanged(auth, (user) => {
                 setTimeout(() => {
                     if (user) {
-                        window.location.href = "crypto.html";
+                        window.location.href = "pin.html";
                     } else {
                         window.location.href = "hello.html";
                     }
